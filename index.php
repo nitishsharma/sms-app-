@@ -1,21 +1,29 @@
 <?php
-$ch = curl_init();
-$user="sharma.nitish2010@gmail.com:Spiderman201";
-$senderID="9246591931";
-$sdtime="2012-06-18 06:00:00";
-$edtime="2012-06-19 06:00:00";
 
 
-curl_setopt($ch,CURLOPT_URL,  "http://api.mVaayoo.com/mvaayooapi/MessageReply");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "user=$user&senderID=$senderID&sdtime=$sdtime&edtime=$edtime");
-$buffer = curl_exec($ch);
-if(empty ($buffer))
-{ echo " buffer is empty "; }
-else
-{ echo $buffer; }
-curl_close($ch);
+  $ch = curl_init();
+  $user="sharma.nitish2010@gmail.com:your_password";
+  $senderID="9246591931";
+  $sdtime="2012-06-18 06:00:00";
+  $edtime="2012-06-19 06:00:00";
+
+
+  curl_setopt($ch,CURLOPT_URL,  "http://api.mVaayoo.com/mvaayooapi/MessageReply");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "user=$user&senderID=$senderID&sdtime=$sdtime&edtime=$edtime");
+  $buffer = curl_exec($ch);
+  if(empty ($buffer))
+  { 
+    echo " buffer is empty "; 
+    
+  }
+  else
+  { 
+    echo $buffer; 
+    
+  }
+  curl_close($ch);
 
 
 
@@ -31,12 +39,13 @@ curl_close($ch);
 
 
 <?php
-$message=$_REQUEST[''];
-$time=$_REQUEST[''];
-$number=$_REQUEST[''];
 
-//to receive data from the main longcode
-$
+  $message=$_REQUEST[''];
+  $time=$_REQUEST[''];
+  $number=$_REQUEST[''];
+
+  //to receive data from the main longcode
+  
 
 ?>
 
@@ -66,48 +75,46 @@ $
 
 
   function verify_timeslot($message)
-{//establish connection with the table
-$dbc= mysql_connect($server,'root','nitish2012');
-mysql_select_db("smsapp");
-if (!$dbc)
   {
-  die('Could not connect:'. $dbc->error);
-  echo"failed to establish connection";//or whatever required to be sent back
+    //establish connection with the table
+  $dbc= mysql_connect($server,'root','nitish2012');
+  mysql_select_db("smsapp");
+  if (!$dbc)
+  {
+    die('Could not connect:'. $dbc->error);
+    echo"failed to establish connection";//or whatever required to be sent back
   }
 
   $query="SELECT * FROM timeslottable  WHERE time = $message ";
-$doquery=mysql_query($query);
+  $doquery=mysql_query($query);
 
-$numrows=mysql_num_rows($doQuery);
+  $numrows=mysql_num_rows($doQuery);
 
   if($numrows<3)
-  {$query="INSERT INTO timeslottable('number','timeslot','time') VALUES('$number','$message','$time')";
-   mysql_query($query);
-  send_confirmation_message();
+  {
+    $query="INSERT INTO timeslottable('number','timeslot','time') VALUES('$number','$message','$time')";
+    mysql_query($query);
+    send_confirmation_message();
 
-  
   }
   else 
-  {preg_match_all('/(\d)|(\w)/', $message, $matches);
+  { 
+    preg_match_all('/(\d)|(\w)/', $message, $matches);
 
-$time = implode($matches[1]);
-$day = implode($matches[2]);
+    $time = implode($matches[1]);
+    $day = implode($matches[2]);
 
-
-
-
-  
- 
-$i=1;
-$values=0;
-$list=array();
+    $i=1;
+    $values=0;
+    $list=array();
 
 
-while($values<5)
-  {$query="SELECT * FROM timeslottable WHERE timeslot=($time+$i).$day ";
+    while($values<5)
+      {
+        $query="SELECT * FROM timeslottable WHERE timeslot=($time+$i).$day ";
 
 
-$doquery=mysql_query($query);
+        $doquery=mysql_query($query);
 if(mysql_num_rows($doquery)<3);
 {
   $values+=1;
